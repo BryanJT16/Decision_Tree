@@ -1,112 +1,95 @@
-# Data Science Project Boilerplate
+# Predicción de Diabetes - Machine Learning
 
-This boilerplate is designed to kickstart data science projects by providing a basic setup for database connections, data processing, and machine learning model development. It includes a structured folder organization for your datasets and a set of pre-defined Python packages necessary for most data science tasks.
+## 📘 Descripción del Proyecto
 
-## Structure
+Este proyecto tiene como objetivo desarrollar un modelo de clasificación capaz de predecir si un paciente tiene diabetes basándose en ciertas medidas diagnósticas. A través de un **Análisis Exploratorio de Datos (EDA)** exhaustivo y la implementación de un **Árbol de Decisión**, se busca proporcionar una herramienta de apoyo al diagnóstico médico que sea interpretable y precisa.
 
-The project is organized as follows:
+---
 
-- **`src/app.py`** → Main Python script where your project will run.
-- **`src/explore.ipynb`** → Notebook for exploration and testing. Once exploration is complete, migrate the clean code to `app.py`.
-- **`src/utils.py`** → Auxiliary functions, such as database connection.
-- **`requirements.txt`** → List of required Python packages.
-- **`models/`** → Will contain your SQLAlchemy model classes.
-- **`data/`** → Stores datasets at different stages:
-  - **`data/raw/`** → Raw data.
-  - **`data/interim/`** → Temporarily transformed data.
-  - **`data/processed/`** → Data ready for analysis.
+## 🧩 Contexto 
+
+El diagnóstico temprano es la piedra angular para el tratamiento efectivo de la diabetes. Este conjunto de datos, proveniente del *Instituto Nacional de Diabetes y Enfermedades Digestivas y Renales*, permite modelar el riesgo de un paciente a partir de indicadores biológicos comunes. Debido al aumento global de casos, automatizar la identificación de pacientes de alto riesgo permite a las instituciones de salud intervenir de forma preventiva, optimizando los tiempos de atención y priorizando los casos clínicos más urgentes.
+
+---
+
+## 🎯 Objetivos
+
+- Realizar un EDA completo para limpiar datos (especialmente el tratamiento de valores "0" biológicamente imposibles).
+
+- Construir un modelo predictivo utilizando un Árbol de Decisión.
+
+- Crear un ejecutable que pruebe el modelo
+
+---
+
+### Resumen de Características
+
+| Columna | Tipo de Dato | Recuento No Nulo | Descripción |
+| :--- | :--- | :--- | :--- |
+| **Pregnancies** | `int64` | 768 | Número de embarazos del paciente.. |
+| **Glucose** | `int64` | 768 | Concentración de glucosa en plasma a las 2 horas de un test de tolerancia oral. |
+| **BloodPressure** | `int64` | 768 |Presión arterial diastólica (medida en mm Hg). |
+| **SkinThickness** | `int64` | 768 | Grosor del pliegue cutáneo del tríceps (medida en mm). |
+| **Insulin** | `int64` | 768 | Insulina sérica de 2 horas (medida en mu U/ml). |
+| **BMI** | `float64` | 768 | Índice de masa corporal (peso en kg/(altura en m)^2). |
+| **DiabetesPedigreeFunction** | `float64` | 768 | Función de pedigrí de diabetes (puntuación basada en antecedentes familiares). |
+| **Agw** | `int64` | 768 | Edad del paciente. |
+| **Outcome** | `int64` | 768 | Variable objetivo: Indica si el paciente tiene diabetes (1) o no (0). |
+
+---
+
+## 🚀 Metodología
+
+### 1. Preprocesamiento de Datos
+* **Tratamiento de nulos**: Se identificaron valores "0" en variables críticas (Insulina, BMI, Presión) y se imputaron o eliminaron según su relevancia.
+* **División de** Datos: El dataset se dividió en conjuntos de entrenamiento (80%) y prueba (20%).
+
+### 2. Entrenamiento del Modelo
+* **Algoritmo:** **Árbol de Decisión** (`DecisionTreeClassifier`).
+
+## 📚 ¿Qué es la Regresión Logística y cómo se usa en este proyecto?
+
+Un **Árbol de Decisión** es un modelo de aprendizaje supervisado que funciona como un diagrama de flujo. El modelo toma decisiones dividiendo los datos en ramas según el valor de las características de entrada, creando una estructura de "nodos" que termina en una predicción final (hoja).
+
+### 🧠 Concepto Básico
+
+En cada paso, el árbol selecciona la variable que mejor separa a los pacientes con diabetes de los que no la tienen. Para medir qué tan buena es esa separación.
+
+### 🎯 ¿Por qué se usa?
+
+* Alta interpretabilidad: Permite visualizar las decisiones mediante reglas lógicas (si/entonces), lo que facilita explicar el diagnóstico médico a personas no técnicas.
+
+* Captura relaciones no lineales: Es capaz de identificar patrones complejos donde el riesgo no aumenta de forma constante, sino que cambia drásticamente a partir de ciertos umbrales.
+
+* Selección natural de variables: El modelo identifica automáticamente qué factores (como la glucosa o el BMI) tienen mayor impacto, ignorando los datos menos relevantes.
+
+* Versatilidad de datos: No requiere que los datos sigan una distribución específica y maneja valores numéricos y categóricos sin necesidad de escalado previo.
+
+* Identificación de interacciones: Detecta fácilmente cómo la combinación de dos factores (ej. edad avanzada y alta presión arterial) aumenta el riesgo de manera conjunta.
+
+### ⚙️ Aplicación en este Proyecto
+
+En este caso, el árbol analiza el historial clínico para crear reglas de decisión. Por ejemplo, el modelo puede aprender que si un paciente tiene una Glucose superior a un umbral crítico, esa es la señal más fuerte para clasificarlo como Outcome: 1. Al final, el árbol optimizado permite al médico ingresar los datos de un nuevo paciente y obtener una respuesta binaria inmediata basada en patrones históricos de miles de casos previos.
+
+* Interpretabilidad: Es extremadamente fácil de explicar a un profesional de la salud (ej: "Si la glucosa es > 125 y la edad es > 30, el riesgo es alto").
+
+* No linealidad: Puede capturar relaciones complejas entre variables sin necesidad de transformaciones matemáticas complicadas.
+
+* Importancia de variables: Nos dice directamente qué factores (como la Glucosa o el BMI) son más determinantes para el diagnóstico.
 
 
-## ⚡ Initial Setup in Codespaces (Recommended)
+## 🧠 Tecnologías Utilizadas
 
-No manual setup is required, as **Codespaces is automatically configured** with the predefined files created by the academy for you. Just follow these steps:
+- **Python**  
+- **Pandas**, **NumPy** – para manipulación y limpieza de datos  
+- **Matplotlib**, **Seaborn** – para visualización de datos  
+- **Scikit-learn** – para la creación y evaluación de modelos predictivos  
+- **Jupyter Notebook** – entorno de desarrollo interactivo  
 
-1. **Wait for the environment to configure automatically**.
-   - All necessary packages and the database will install themselves.
-   - The automatically created `username` and `db_name` are in the **`.env`** file at the root of the project.
-2. **Once Codespaces is ready, you can start working immediately**.
+---
 
+## 👤 Autor
 
-## 💻 Local Setup (Only if you can't use Codespaces)
-
-**Prerequisites**
-
-Make sure you have Python 3.11+ installed on your machine. You will also need pip to install the Python packages.
-
-**Installation**
-
-Clone the project repository to your local machine.
-
-Navigate to the project directory and install the required Python packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-**Create a database (if necessary)**
-
-Create a new database within the Postgres engine by customizing and executing the following command:
-
-```bash
-$ psql -U postgres -c "DO \$\$ BEGIN 
-    CREATE USER my_user WITH PASSWORD 'my_password'; 
-    CREATE DATABASE my_database OWNER my_user; 
-END \$\$;"
-```
-Connect to the Postgres engine to use your database, manipulate tables, and data:
-
-```bash
-$ psql -U my_user -d my_database
-```
-
-Once inside PSQL, you can create tables, run queries, insert, update, or delete data, and much more!
-
-**Environment Variables**
-
-Create a .env file in the root directory of the project to store your environment variables, such as your database connection string:
-
-```makefile
-DATABASE_URL="postgresql://<USER>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>"
-
-#example
-DATABASE_URL="postgresql://my_user:my_password@localhost:5432/my_database"
-```
-
-## Running the Application
-
-To run the application, execute the app.py script from the root directory of the project:
-
-```bash
-python src/app.py
-```
-
-## Adding Models
-
-To add SQLAlchemy model classes, create new Python script files within the models/ directory. These classes should be defined according to your database schema.
-
-Example model definition (`models/example_model.py`):
-
-```py
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
-
-Base = declarative_base()
-
-class ExampleModel(Base):
-    __tablename__ = 'example_table'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
-```
-
-## Working with Data
-
-You can place your raw datasets in the data/raw directory, intermediate datasets in data/interim, and processed datasets ready for analysis in data/processed.
-
-To process data, you can modify the app.py script to include your data processing steps, using pandas for data manipulation and analysis.
-
-## Contributors
-
-This template was built as part of the [Data Science and Machine Learning Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning) by 4Geeks Academy by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Learn more about [4Geeks Academy BootCamp programs](https://4geeksacademy.com/us/programs) here.
-
-Other templates and resources like this can be found on the school's GitHub page.
+**Bryan Jumbo Torres**  
+📍 Mallorca, España  
+💻 Proyecto académico / profesional de análisis de datos  
